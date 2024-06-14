@@ -24,7 +24,13 @@ public class Main {
         window.setLocation(windowX, windowY);
 
         Background bg = new Background();
+        bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         window.add(bg);
+
+        Base base = new Base();
+        base.y = bg.backgroundImageIcon.getIconHeight();
+        base.setBounds(0, bg.backgroundImageIcon.getIconHeight(), base.baseImage.getIconWidth(), base.baseImage.getIconHeight());
+        window.add(base);
         window.pack();
     }
 }
