@@ -26,6 +26,10 @@ public class Main {
         Background bg = new Background();
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         window.add(bg);
+        
+        Bird bird = new Bird();
+        bird.setBounds(0, 0, bird.birdImage.getIconWidth(), bird.birdImage.getIconHeight());
+        window.add(bird);
 
         Base base = new Base();
         base.y = bg.backgroundImageIcon.getIconHeight();

@@ -1,18 +1,19 @@
+
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Base extends JPanel {
-    ImageIcon baseImage = new ImageIcon("base.png");
+public class Bird extends JPanel {
+    ImageIcon birdImage = new ImageIcon("yellowbird-midflap.png");
     int x = 0;
     int y = 0;
     
-    public Base() {
+    public Bird() {
         setVisible(true);
     }
 
     @Override
     public void paint(Graphics graphics) {
-        graphics.drawImage(baseImage.getImage(), x, y, this);
+        graphics.drawImage(birdImage.getImage(), x, y, this);
     }
 }
