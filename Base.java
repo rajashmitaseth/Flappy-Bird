@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Base extends JPanel {
-    ImageIcon baseImage = new ImageIcon("base.png");
+    ImageIcon baseImageIcon = new ImageIcon("base.png");
     int x = 0;
     int y = 0;
     
@@ -13,6 +13,6 @@ public class Base extends JPanel {
 
     @Override
     public void paint(Graphics graphics) {
-        graphics.drawImage(baseImage.getImage(), x, y, this);
+        graphics.drawImage(baseImageIcon.getImage(), x, y, this);
     }
 }

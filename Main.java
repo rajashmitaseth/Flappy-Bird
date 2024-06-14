@@ -24,16 +24,20 @@ public class Main {
         window.setLocation(windowX, windowY);
 
         Background bg = new Background();
-        bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
-        window.add(bg);
-        
         Bird bird = new Bird();
         bird.setBounds(0, 0, bird.birdImage.getIconWidth(), bird.birdImage.getIconHeight());
         window.add(bird);
+        Pipe pipe = new Pipe();
+        pipe.setBounds(50, 0, pipe.pipeTopImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
+        window.add(pipe);
+        bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
+        window.add(bg);
+
+
 
         Base base = new Base();
         base.y = bg.backgroundImageIcon.getIconHeight();
-        base.setBounds(0, bg.backgroundImageIcon.getIconHeight(), base.baseImage.getIconWidth(), base.baseImage.getIconHeight());
+        base.setBounds(0, bg.backgroundImageIcon.getIconHeight(), base.baseImageIcon.getIconWidth(), base.baseImageIcon.getIconHeight());
         window.add(base);
         window.pack();
     }
