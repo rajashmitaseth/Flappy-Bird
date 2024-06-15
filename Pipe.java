@@ -21,8 +21,8 @@ public class Pipe extends JPanel {
 
     @Override
     public void paint(Graphics graphics) {
-        // graphics.drawImage(pipeTopImageIcon.getImage(), x, yTop, this);
-        // graphics.drawImage(pipeBottomImageIcon.getImage(), x, yBottom, this);
+        graphics.drawImage(pipeTopImageIcon.getImage(), x, yTop, this);
+        graphics.drawImage(pipeBottomImageIcon.getImage(), x, yBottom, this);
     }
 
     public void move() {

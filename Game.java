@@ -39,7 +39,11 @@ public class Game extends JFrame implements ActionListener{
 
         bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bird);
-        
+
+        pipes = new ArrayList<Pipe>();
+        placePipes();
+        placePipes();
+
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bg);
 
@@ -51,23 +55,44 @@ public class Game extends JFrame implements ActionListener{
         bird.requestFocus();
         setVisible(true);
 
+        placePipesTimer = new Timer(1200, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                placePipes();
+                System.out.println(pipes.size() + "th Pipe added.\nThe X position of that pipe: " + pipes.getLast().x);
+            }
+        });
+        placePipesTimer.start();
+
         gameLoop = new Timer(1000/60, this);
         gameLoop.start();
 
-        placePipesTimer = new Timer(1500, (ActionEvent e) -> {
-            placePipes();
-        });
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         bird.move();
+        movePipes();
+        pipeSpacing -= pipes.get(0).velocityX;
         repaint();
+        System.out.println(pipes.size() + "th Pipe added.\nThe X position of that pipe: " + pipes.getLast().x);
     }
 
     public void placePipes() {
         Pipe pipe = new Pipe();
+        pipe.x = pipeSpacing;
+        pipeSpacing += windowWidth/2;
         pipes.add(pipe);
+        for (Pipe pipeTemp : pipes) {
+            pipeTemp.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
+            add(pipeTemp);
+        }
+    }
+
+    public void movePipes() {
+        for (Pipe pipe : pipes) {
+            pipe.move();
+        }
     }
 
 }
