@@ -15,7 +15,7 @@ public class PipeController {
     }
 
     public void createPipeList() {
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 3; i++) {
             pipes.add(new Pipe());
         }
     }
