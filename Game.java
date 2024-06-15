@@ -1,10 +1,10 @@
 
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.TimerTask;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -12,10 +12,7 @@ public class Game extends JFrame implements ActionListener{
     Background bg = new Background();
     Bird bird = new Bird();
     Base base = new Base();
-    // Pipe pipe1 = new Pipe();
-    // Pipe pipe2 = new Pipe();
-
-    ArrayList<Pipe> pipes;
+    PipeController pipeController = new PipeController();
 
     Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = (int)screenDimension.getWidth();
@@ -28,7 +25,7 @@ public class Game extends JFrame implements ActionListener{
     int pipeSpacing = windowWidth/2;
 
     Timer gameLoop;
-    Timer placePipesTimer;
+    Timer placePipeTimer;
 
     public Game() {
 
@@ -39,7 +36,8 @@ public class Game extends JFrame implements ActionListener{
 
         bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bird);
-        
+
+        this.placePipes();
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bg);
 
@@ -52,22 +50,27 @@ public class Game extends JFrame implements ActionListener{
         setVisible(true);
 
         gameLoop = new Timer(1000/60, this);
+        placePipeTimer = new Timer(1000, ((ActionListener) -> {
+            this.placePipes();
+        }));
         gameLoop.start();
-
-        placePipesTimer = new Timer(1500, (ActionEvent e) -> {
-            placePipes();
-        });
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         bird.move();
+        pipeController.move();
+        pipeSpacing = pipeSpacing - pipeController.velocityX;
         repaint();
     }
 
     public void placePipes() {
-        Pipe pipe = new Pipe();
-        pipes.add(pipe);
+        pipeController.createPipeList();
+        for(Pipe pipe: pipeController.pipes) {
+            pipe.x = pipeSpacing;
+            pipe.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
+            add(pipe);
+            pipeSpacing += windowWidth/2;
+        }
     }
-
 }

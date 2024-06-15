@@ -13,7 +13,6 @@ public class Pipe extends JPanel {
     int yTop = - random.nextInt(pipeTopImageIcon.getIconHeight() - 177);
     int yBottom = yTop + pipeTopImageIcon.getIconHeight() + space;
     boolean passed = false;
-    int velocityX = 4;
     
     public Pipe() {
         setVisible(true);
@@ -21,11 +20,7 @@ public class Pipe extends JPanel {
 
     @Override
     public void paint(Graphics graphics) {
-        // graphics.drawImage(pipeTopImageIcon.getImage(), x, yTop, this);
-        // graphics.drawImage(pipeBottomImageIcon.getImage(), x, yBottom, this);
-    }
-
-    public void move() {
-        x -= velocityX;
+        graphics.drawImage(pipeTopImageIcon.getImage(), x, yTop, this);
+        graphics.drawImage(pipeBottomImageIcon.getImage(), x, yBottom, this);
     }
 }
