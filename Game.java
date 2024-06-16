@@ -22,7 +22,7 @@ public class Game extends JFrame implements ActionListener{
     Dimension windowDimension = new Dimension(windowWidth, windowHeight);
     int windowX = screenWidth/2 - windowWidth/2;
     int windowY = screenHeight/2 - windowHeight/2;
-    int pipeSpacing = windowWidth/2;
+    int pipeSpacing = windowWidth/2 + windowWidth/4;
 
     Timer gameLoop;
     Timer placePipesTimer;
@@ -34,12 +34,19 @@ public class Game extends JFrame implements ActionListener{
         setMinimumSize(windowDimension);
         setLocation(windowX, windowY);
 
+        // bird.x = windowWidth/8;
         bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bird);
 
         pipes = new ArrayList<Pipe>();
-        placePipes();
-        placePipes();
+        Pipe pipeNew = new Pipe();
+        pipeNew.x = pipeSpacing;
+        pipeNew.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
+        add(pipeNew);
+        pipeSpacing += windowWidth/2;
+        pipes.add(pipeNew);
+        // placePipes();
+        // placePipes();
 
         addBackground();
 
@@ -55,6 +62,7 @@ public class Game extends JFrame implements ActionListener{
             placePipes();
             addBackground();
         });
+        // placePipesTimer.setInitialDelay(1600);
         placePipesTimer.start();
 
         gameLoop = new Timer(1000/60, this);
@@ -68,6 +76,8 @@ public class Game extends JFrame implements ActionListener{
         movePipes();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
+        checkHit();
+        checkGameOver();
     }
 
     public void placePipes() {
@@ -88,6 +98,48 @@ public class Game extends JFrame implements ActionListener{
     public void addBackground() {
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bg);
+    }
+
+    int birdStartX;
+    int birdWidth;
+    int birdEndX;
+    int pipeStartX;
+    int pipeEndX;
+    int birdStartY;
+    int birdHeight;
+    int birdEndY;
+    int pipeStartY;
+    int topPipeEnd;
+    int bottomPipeStart;
+    boolean gameOver;
+
+    public void checkHit() {
+        birdStartX = windowWidth/8;
+        birdWidth = bird.birdImageIcon.getIconWidth();
+        birdEndX = birdStartX + birdWidth;
+        birdStartY = bird.y;
+        birdHeight = bird.birdImageIcon.getIconHeight();
+        birdEndY = birdStartY + birdHeight;
+        for (Pipe pipe : pipes) {
+            pipeStartX = pipe.x;
+            pipeEndX = pipeStartX + pipe.pipeTopImageIcon.getIconWidth();
+            pipeStartY = pipe.yTop;
+            topPipeEnd = pipeStartY + pipe.pipeTopImageIcon.getIconHeight();
+            bottomPipeStart = pipe.yBottom;
+            if(pipeEndX > birdStartX  &&  
+               ((birdEndX >= pipeStartX  &&  birdStartY <= topPipeEnd)  ||
+               (birdEndX >= pipeStartX  &&  birdEndY >= bottomPipeStart))) {
+                gameOver = true;
+                System.out.println("Hit." + pipes.indexOf(pipe));
+            }
+        }
+    }
+
+    public void checkGameOver() {
+        if(gameOver) {
+            placePipesTimer.stop();
+            gameLoop.stop();
+        }
     }
 
 }
