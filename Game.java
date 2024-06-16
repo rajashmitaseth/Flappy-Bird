@@ -1,5 +1,4 @@
 
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -12,8 +11,6 @@ public class Game extends JFrame implements ActionListener{
     Background bg = new Background();
     Bird bird = new Bird();
     Base base = new Base();
-    // Pipe pipe1 = new Pipe();
-    // Pipe pipe2 = new Pipe();
 
     ArrayList<Pipe> pipes;
 
@@ -44,8 +41,7 @@ public class Game extends JFrame implements ActionListener{
         placePipes();
         placePipes();
 
-        bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
-        add(bg);
+        addBackground();
 
         base.y = bg.backgroundImageIcon.getIconHeight();
         base.setBounds(0, bg.backgroundImageIcon.getIconHeight(), base.baseImageIcon.getIconWidth(), base.baseImageIcon.getIconHeight());
@@ -55,12 +51,9 @@ public class Game extends JFrame implements ActionListener{
         bird.requestFocus();
         setVisible(true);
 
-        placePipesTimer = new Timer(1200, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                placePipes();
-                System.out.println(pipes.size() + "th Pipe added.\nThe X position of that pipe: " + pipes.getLast().x);
-            }
+        placePipesTimer = new Timer(1000, (ActionEvent e) -> {
+            placePipes();
+            addBackground();
         });
         placePipesTimer.start();
 
@@ -75,24 +68,26 @@ public class Game extends JFrame implements ActionListener{
         movePipes();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
-        System.out.println(pipes.size() + "th Pipe added.\nThe X position of that pipe: " + pipes.getLast().x);
     }
 
     public void placePipes() {
-        Pipe pipe = new Pipe();
-        pipe.x = pipeSpacing;
+        Pipe pipeNew = new Pipe();
+        pipeNew.x = pipeSpacing;
+        pipeNew.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
+        add(pipeNew);
         pipeSpacing += windowWidth/2;
-        pipes.add(pipe);
-        for (Pipe pipeTemp : pipes) {
-            pipeTemp.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
-            add(pipeTemp);
-        }
+        pipes.add(pipeNew);
     }
 
     public void movePipes() {
         for (Pipe pipe : pipes) {
             pipe.move();
         }
+    }
+
+    public void addBackground() {
+        bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
+        add(bg);
     }
 
 }
