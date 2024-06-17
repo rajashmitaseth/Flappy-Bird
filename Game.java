@@ -2,11 +2,13 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-public class Game extends JFrame implements ActionListener{
+public class Game extends JFrame implements ActionListener, KeyListener{
     Background background = new Background();
     Bird bird = new Bird();
     Base base = new Base();
@@ -49,6 +51,8 @@ public class Game extends JFrame implements ActionListener{
         pack();
         bird.requestFocus();
         setVisible(true);
+        bird.setFocusable(true);
+        bird.addKeyListener(this);
 
         placePipesTimer = new Timer(800, (ActionEvent e) -> {
             placePipes();
@@ -163,9 +167,33 @@ public class Game extends JFrame implements ActionListener{
     }
 
     public void restartGame() {
+        for (Pipe pipe : pipes) {
+            remove(pipe);
+        }
         pipes.clear();
         pipeSpacing = windowWidth;
         gameOver = false;
         score = 0;
+        gameOverMessage.setVisible(false);
+        addPipe();
+        gameLoop.start();
+        placePipesTimer.start();
     }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
+            bird.velocityY = -9;
+            if(gameOver) {
+                restartGame();
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
 }

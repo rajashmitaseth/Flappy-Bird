@@ -1,11 +1,9 @@
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class Bird extends JPanel implements KeyListener{
+public class Bird extends JPanel{
     Background background = new Background();
     ImageIcon birdUpFlapImageIcon = new ImageIcon("yellowbird-upflap.png");
     ImageIcon birdMidFlapImageIcon = new ImageIcon("yellowbird-midflap.png");
@@ -20,8 +18,6 @@ public class Bird extends JPanel implements KeyListener{
     
     public Bird() {
         setVisible(true);
-        setFocusable(true);
-        addKeyListener(this);
     }
 
     @Override
@@ -36,19 +32,6 @@ public class Bird extends JPanel implements KeyListener{
         y = Math.min(y, background.backgroundImageIcon.getIconHeight() - birdImageIcon.getIconHeight());
         y = Math.max(y, 0);
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
-            velocityY = -9;
-        }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 
     public void flap() {
         birdImageIcon = wingPositions[wingPosition];
