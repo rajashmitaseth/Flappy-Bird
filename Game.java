@@ -80,8 +80,6 @@ public class Game extends JFrame implements ActionListener{
         movePipes();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
-        checkHit();
-        countScore();
         birdOutOfBounds();
         checkGameOver();
     }
@@ -98,7 +96,9 @@ public class Game extends JFrame implements ActionListener{
     public void movePipes() {
         for (Pipe pipe : pipes) {
             pipe.move();
+            checkHit(pipe);
         }
+        countScore();
     }
 
     public void addBackground() {
@@ -106,34 +106,31 @@ public class Game extends JFrame implements ActionListener{
         add(bg);
     }
 
-    public void checkHit() {
-        for (Pipe pipe : pipes) {
-            pipeStartX = pipe.x;
-            pipeEndX = pipeStartX + pipe.pipeTopImageIcon.getIconWidth();
-            pipeStartY = pipe.yTop;
-            topPipeEnd = pipeStartY + pipe.pipeTopImageIcon.getIconHeight();
-            bottomPipeStart = pipe.yBottom;
-            if(pipeEndX > windowWidth/8  &&  
-               ((windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y <= topPipeEnd)  ||
-               (windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y + bird.birdImageIcon.getIconHeight() >= bottomPipeStart))) {
-                pipe.hit = true;
-                gameOver = true;
-                System.out.println("Hit: " + pipes.indexOf(pipe));
-            }
-            else{
-                pipe.hit = false;
-            }
+    public void checkHit(Pipe p) {
+        pipeStartX = p.x;
+        pipeEndX = pipeStartX + p.pipeTopImageIcon.getIconWidth();
+        pipeStartY = p.yTop;
+        topPipeEnd = pipeStartY + p.pipeTopImageIcon.getIconHeight();
+        bottomPipeStart = p.yBottom;
+        if(pipeEndX > windowWidth/8  &&  
+           ((windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y <= topPipeEnd)  ||
+            (windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y + bird.birdImageIcon.getIconHeight() >= bottomPipeStart))) {
+            gameOver = true;
+            System.out.println("Hit: " + pipes.indexOf(p));
+        }
+        else if(pipeEndX < windowWidth/8){
+            p.passed = true;
         }
     }
 
     public void countScore() {
-        // score = 0;
-        // for (Pipe pipe : pipes) {
-        //     if (!pipe.hit) {
-        //         score += 1;
-        //     }
-        // }
-        // System.out.println("Your score: " + score);
+        score = 0;
+        for (Pipe pipe : pipes) {
+            if (pipe.passed) {
+                score += 1;
+            }
+        }
+        System.out.println("Your score: " + score);
     }
 
     public void birdOutOfBounds() {
