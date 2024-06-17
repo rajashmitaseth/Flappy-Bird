@@ -11,6 +11,7 @@ public class Game extends JFrame implements ActionListener{
     Background bg = new Background();
     Bird bird = new Bird();
     Base base = new Base();
+    ScoreBoard scoreBoard = new ScoreBoard();
 
     ArrayList<Pipe> pipes;
 
@@ -22,7 +23,7 @@ public class Game extends JFrame implements ActionListener{
     Dimension windowDimension = new Dimension(windowWidth, windowHeight);
     int windowX = screenWidth/2 - windowWidth/2;
     int windowY = screenHeight/2 - windowHeight/2;
-    int pipeSpacing = windowWidth/2 + windowWidth/4;
+    int pipeSpacing = windowWidth;
     int pipeStartX;
     int pipeEndX;
     int pipeStartY;
@@ -36,16 +37,20 @@ public class Game extends JFrame implements ActionListener{
 
     public Game() {
 
+        setTitle("Flappy Bird");
+        setIconImage(bird.birdImageIcon.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(windowWidth, windowHeight);
         setMinimumSize(windowDimension);
         setLocation(windowX, windowY);
 
-        // bird.x = windowWidth/8;
         bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bird);
 
-        pipes = new ArrayList<Pipe>();
+        scoreBoard.setBounds(0, scoreBoard.Zero.getHeight(null), windowWidth, windowHeight);
+        add(scoreBoard);
+
+        pipes = new ArrayList<>();
         Pipe pipeNew = new Pipe();
         pipeNew.x = pipeSpacing;
         pipeNew.setBounds(0, 0, windowWidth, bg.backgroundImageIcon.getIconHeight());
@@ -63,7 +68,8 @@ public class Game extends JFrame implements ActionListener{
         bird.requestFocus();
         setVisible(true);
 
-        placePipesTimer = new Timer(1000, (ActionEvent e) -> {
+        placePipesTimer = new Timer(800, (ActionEvent e) -> {
+            removeBackground();
             placePipes();
             addBackground();
         });
@@ -78,10 +84,21 @@ public class Game extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         bird.move();
         movePipes();
+        countScore();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
         birdOutOfBounds();
         checkGameOver();
+    }
+
+    public void countScore() {
+        score = 0;
+        for (Pipe pipe : pipes) {
+            if (pipe.passed) {
+                score += 1;
+            }
+        }
+        scoreBoard.getScoreDigits(score, windowWidth);
     }
 
     public void placePipes() {
@@ -98,12 +115,15 @@ public class Game extends JFrame implements ActionListener{
             pipe.move();
             checkHit(pipe);
         }
-        countScore();
     }
 
-    public void addBackground() {
+    private void addBackground() {
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bg);
+    }
+
+    public void removeBackground() {
+        remove(bg);
     }
 
     public void checkHit(Pipe p) {
@@ -116,21 +136,10 @@ public class Game extends JFrame implements ActionListener{
            ((windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y <= topPipeEnd)  ||
             (windowWidth/8 + bird.birdImageIcon.getIconWidth() >= pipeStartX  &&  bird.y + bird.birdImageIcon.getIconHeight() >= bottomPipeStart))) {
             gameOver = true;
-            System.out.println("Hit: " + pipes.indexOf(p));
         }
         else if(pipeEndX < windowWidth/8){
             p.passed = true;
         }
-    }
-
-    public void countScore() {
-        score = 0;
-        for (Pipe pipe : pipes) {
-            if (pipe.passed) {
-                score += 1;
-            }
-        }
-        System.out.println("Your score: " + score);
     }
 
     public void birdOutOfBounds() {

@@ -26,7 +26,7 @@ public class Bird extends JPanel implements KeyListener{
 
     @Override
     public void paint(Graphics graphics) {
-        this.flap();
+        flap();
         graphics.drawImage(birdImageIcon.getImage(), x, y, this);
     }
 
