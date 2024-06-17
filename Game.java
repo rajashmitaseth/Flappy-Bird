@@ -12,6 +12,7 @@ public class Game extends JFrame implements ActionListener{
     Bird bird = new Bird();
     Base base = new Base();
     ScoreBoard scoreBoard = new ScoreBoard();
+    GameOver gameOverMessage = new GameOver();
 
     ArrayList<Pipe> pipes;
 
@@ -23,6 +24,8 @@ public class Game extends JFrame implements ActionListener{
     Dimension windowDimension = new Dimension(windowWidth, windowHeight);
     int windowX = screenWidth/2 - windowWidth/2;
     int windowY = screenHeight/2 - windowHeight/2;
+    int gameOverMessageX = windowWidth/2 - gameOverMessage.gameOverImage.getWidth(null)/2;
+    int gameOverMessageY = bg.backgroundImageIcon.getIconHeight()/2 - gameOverMessage.gameOverImage.getHeight(null)/2;
     int pipeSpacing = windowWidth;
     int pipeStartX;
     int pipeEndX;
@@ -44,8 +47,10 @@ public class Game extends JFrame implements ActionListener{
         setMinimumSize(windowDimension);
         setLocation(windowX, windowY);
 
-        bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
-        add(bird);
+        gameOverMessage.setBounds(gameOverMessageX, gameOverMessageY, windowWidth, windowHeight);
+        add(gameOverMessage);
+
+        addBird();
 
         scoreBoard.setBounds(0, scoreBoard.Zero.getHeight(null), windowWidth, windowHeight);
         add(scoreBoard);
@@ -69,7 +74,7 @@ public class Game extends JFrame implements ActionListener{
         setVisible(true);
 
         placePipesTimer = new Timer(800, (ActionEvent e) -> {
-            removeBackground();
+            // removeBackground();
             placePipes();
             addBackground();
         });
@@ -118,12 +123,18 @@ public class Game extends JFrame implements ActionListener{
     }
 
     private void addBackground() {
+        remove(bg);
         bg.setBounds(0, 0, bg.backgroundImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
         add(bg);
     }
 
-    public void removeBackground() {
-        remove(bg);
+    // public void removeBackground() {
+    //     remove(bg);
+    // }
+
+    public void addBird() {
+        bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), bg.backgroundImageIcon.getIconHeight());
+        add(bird);
     }
 
     public void checkHit(Pipe p) {
@@ -152,6 +163,7 @@ public class Game extends JFrame implements ActionListener{
         if(gameOver) {
             placePipesTimer.stop();
             gameLoop.stop();
+            gameOverMessage.setVisible(true);
         }
     }
 

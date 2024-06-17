@@ -24,7 +24,6 @@ public class ScoreBoard extends JPanel {
 
     public ScoreBoard() {
         scoreDigits = new ArrayList<>();
-        // scoreDigits.add(Zero);
         setVisible(true);
     }
 
