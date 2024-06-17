@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 
 public class Background extends JPanel {
     ImageIcon backgroundImageIcon = new ImageIcon("background-day.png");
-    int x = 0;
-    int y = 0;
 
     public Background() {
         setVisible(true);
@@ -13,7 +11,7 @@ public class Background extends JPanel {
 
     @Override
     public void paint(Graphics graphics) {
-        graphics.drawImage(backgroundImageIcon.getImage(), x, y, this);
+        graphics.drawImage(backgroundImageIcon.getImage(), 0, 0, this);
     }
 
 }

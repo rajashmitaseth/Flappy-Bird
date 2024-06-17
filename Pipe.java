@@ -10,7 +10,7 @@ public class Pipe extends JPanel {
     ImageIcon pipeBottomImageIcon = new ImageIcon("pipe-green-bottom.png");
     int x = 0;
     int space = 100;
-    int yTop = - random.nextInt(pipeTopImageIcon.getIconHeight() - 177);
+    int yTop = - random.nextInt(pipeTopImageIcon.getIconHeight() - 240);
     int yBottom = yTop + pipeTopImageIcon.getIconHeight() + space;
     boolean passed = false;
     int velocityX = 4;
