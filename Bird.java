@@ -40,4 +40,12 @@ public class Bird extends JPanel{
             wingPosition = 0;
         }
     }
+
+    public void fixX() {
+        x -= 2;
+    }
+
+    public void fixY() {
+        y -= 3;
+    }
 }

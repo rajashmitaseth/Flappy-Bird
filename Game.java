@@ -26,7 +26,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int startMessageY = backgroundHeight/2 - startMessage.startMessageImageIcon.getIconHeight()/2;
     int gameOverMessageX = backgroundWidth/2 - gameOverMessage.gameOverImage.getWidth(null)/2;
     int gameOverMessageY = backgroundHeight/2 - gameOverMessage.gameOverImage.getHeight(null)/2;
-    int pipeSpacing = windowWidth;
+    int pipeSpacing = 3 * (backgroundWidth/2);
 
     Dimension windowDimension = new Dimension(windowWidth , windowHeight);
     boolean gameOver = true;
@@ -85,8 +85,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         remove(startMessage);
     }
 
-    public void addStartMessage() {
-        startMessage.setBounds(startMessageX, startMessageY, windowWidth, windowHeight);
+    private void addStartMessage() {
+        startMessage.setBounds(startMessageX, startMessageY, backgroundWidth, windowHeight);
         add(startMessage);
     }
 
@@ -98,7 +98,9 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     
     private void addBird() {
         remove(bird);
-        bird.setBounds(windowWidth/8, 0, bird.birdImageIcon.getIconWidth(), backgroundHeight);
+        bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
+        bird.y = backgroundHeight/2 + 65;
+        bird.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(bird);
     }
 
@@ -112,9 +114,9 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         pipes = new ArrayList<>();
         Pipe pipeNew = new Pipe();
         pipeNew.x = pipeSpacing;
-        pipeNew.setBounds(0, 0, windowWidth, backgroundHeight);
+        pipeNew.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(pipeNew);
-        pipeSpacing += windowWidth/2;
+        pipeSpacing += backgroundWidth/2;
         pipes.add(pipeNew);
     }
 
@@ -134,9 +136,9 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     public void placePipes() {
         Pipe pipeNew = new Pipe();
         pipeNew.x = pipeSpacing;
-        pipeNew.setBounds(0, 0, windowWidth, backgroundHeight);
+        pipeNew.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(pipeNew);
-        pipeSpacing += windowWidth/2;
+        pipeSpacing += backgroundWidth/2;
         pipes.add(pipeNew);
     }
 
@@ -144,16 +146,19 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         for (Pipe pipe : pipes) {
             pipe.move();
             checkHit(pipe);
-        }    
+        }
+        if(bird.x > backgroundWidth/8) {
+            bird.fixX();
+        }
     }
 
     public void checkHit(Pipe p) {
-        if(p.x + p.pipeTopImageIcon.getIconWidth() > windowWidth/8  &&  
-          ((windowWidth/8 + bird.birdImageIcon.getIconWidth() >= p.x  &&  bird.y <= p.yTop + p.pipeTopImageIcon.getIconHeight())  ||
-           (windowWidth/8 + bird.birdImageIcon.getIconWidth() >= p.x  &&  bird.y + bird.birdImageIcon.getIconHeight() >= p.yBottom))) {
+        if(p.x + p.pipeTopImageIcon.getIconWidth() > bird.x  &&  
+          ((bird.x + bird.birdImageIcon.getIconWidth() >= p.x  &&  bird.y <= p.yTop + p.pipeTopImageIcon.getIconHeight())  ||
+           (bird.x + bird.birdImageIcon.getIconWidth() >= p.x  &&  bird.y + bird.birdImageIcon.getIconHeight() >= p.yBottom))) {
             gameOver = true;
         }
-        else if(p.x + p.pipeTopImageIcon.getIconWidth() < windowWidth/8){
+        else if(p.x + p.pipeTopImageIcon.getIconWidth() < bird.x){
             p.passed = true;
         }
     }
@@ -171,7 +176,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
                 score += 1;
             }            
         }            
-        scoreBoard.getScoreDigits(score, windowWidth);
+        scoreBoard.getScoreDigits(score, backgroundWidth);
     }        
 
     public void checkGameOver() {
@@ -187,7 +192,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             remove(pipe);
         }
         pipes.clear();
-        pipeSpacing = windowWidth;
+        pipeSpacing = 3 * (backgroundWidth/2);
         bird.y = windowHeight/2;
         gameOver = false;
         score = 0;
