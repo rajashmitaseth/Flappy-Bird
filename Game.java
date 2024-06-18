@@ -29,7 +29,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int pipeSpacing = 3 * (backgroundWidth/2);
 
     Dimension windowDimension = new Dimension(windowWidth , windowHeight);
-    boolean gameOver = true;
+    boolean gameOver = false;
     boolean gameStarted = false;
     int score;
 
@@ -73,7 +73,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         countScore();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
-        birdOutOfBounds();
+        // birdOutOfBounds();
         checkGameOver();
     }
 
@@ -86,6 +86,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     }
 
     private void addStartMessage() {
+        remove(startMessage);
         startMessage.setBounds(startMessageX, startMessageY, backgroundWidth, windowHeight);
         add(startMessage);
     }
@@ -106,7 +107,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     private void addScoreBoard() {
         remove(scoreBoard);
-        scoreBoard.setBounds(0, scoreBoard.Zero.getHeight(null), backgroundWidth, backgroundHeight);
+        scoreBoard.setBounds(0, windowHeight - (3 * scoreBoard.Zero.getHeight(null)), backgroundWidth, backgroundHeight);
         add(scoreBoard);
     }
 
@@ -161,13 +162,16 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         else if(p.x + p.pipeTopImageIcon.getIconWidth() < bird.x){
             p.passed = true;
         }
-    }
-
-    public void birdOutOfBounds() {
-        if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
+        else if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
             gameOver = true;
         }
     }
+
+    // public void birdOutOfBounds() {
+    //     if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
+    //         gameOver = true;
+    //     }
+    // }
 
     public void countScore() {
         score = 0;
@@ -184,10 +188,11 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             placePipesTimer.stop();
             gameLoop.stop();
             gameOverMessage.setVisible(true);
+            gameStarted = false;
         }
     }
 
-    public void restartGame() {
+    public void resetGameFrame() {
         for (Pipe pipe : pipes) {
             remove(pipe);
         }
@@ -195,22 +200,42 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         pipeSpacing = 3 * (backgroundWidth/2);
         bird.y = windowHeight/2;
         gameOver = false;
+        // gameStarted = false;
         score = 0;
         gameOverMessage.setVisible(false);
         addStartMessage();
+        addGameOver();
+        // addBird();
+        addScoreBoard();
         addPipe();
-        startGame();
+        addBackground();
+        addBase();
+        countScore();
+
+        bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
+        bird.y = backgroundHeight/2 + 65;
+
+        // pack();
+        // bird.requestFocus();
+        // setVisible(true);
+        // bird.setFocusable(true);
+        // bird.addKeyListener(this);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("KEY PRESSED.");
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
             bird.velocityY = -9;
-            if(!gameStarted) {
-                startGame();
+            if(gameOver) {
+                System.out.println("frame resetted. ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
+                resetGameFrame();
+                System.out.println("                ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
             }
-            else if(gameOver) {
-                restartGame();
+            else if(!gameStarted && !gameOver) {
+                System.out.println("game started. ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
+                startGame();
+                System.out.println("              ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
             }
         }
     }
