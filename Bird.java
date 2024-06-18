@@ -8,7 +8,7 @@ public class Bird extends JPanel{
     ImageIcon birdUpFlapImageIcon = new ImageIcon("yellowbird-upflap.png");
     ImageIcon birdMidFlapImageIcon = new ImageIcon("yellowbird-midflap.png");
     ImageIcon birdDownFlapImageIcon = new ImageIcon("yellowbird-downflap.png");
-    ImageIcon birdImageIcon = birdUpFlapImageIcon;
+    ImageIcon birdImageIcon = birdDownFlapImageIcon;
     ImageIcon[] wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     int wingPosition = 0;
     int x = 0;

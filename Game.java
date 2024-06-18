@@ -47,8 +47,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         
         addStartMessage();
         addGameOver();
-        addBird();
         addScoreBoard();
+        addBird();
         addPipe();
         addBackground();
         addBase();
@@ -73,7 +73,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         countScore();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
-        // birdOutOfBounds();
         checkGameOver();
     }
 
@@ -100,14 +99,14 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     private void addBird() {
         remove(bird);
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
-        bird.y = backgroundHeight/2 + 65;
+        bird.y = backgroundHeight/2 + 36;
         bird.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(bird);
     }
 
     private void addScoreBoard() {
         remove(scoreBoard);
-        scoreBoard.setBounds(0, windowHeight - (3 * scoreBoard.Zero.getHeight(null)), backgroundWidth, backgroundHeight);
+        scoreBoard.setBounds(0, scoreBoard.Zero.getHeight(null), backgroundWidth, backgroundHeight);
         add(scoreBoard);
     }
 
@@ -167,12 +166,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         }
     }
 
-    // public void birdOutOfBounds() {
-    //     if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
-    //         gameOver = true;
-    //     }
-    // }
-
     public void countScore() {
         score = 0;
         for (Pipe pipe : pipes) {
@@ -200,12 +193,11 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         pipeSpacing = 3 * (backgroundWidth/2);
         bird.y = windowHeight/2;
         gameOver = false;
-        // gameStarted = false;
         score = 0;
         gameOverMessage.setVisible(false);
+
         addStartMessage();
         addGameOver();
-        // addBird();
         addScoreBoard();
         addPipe();
         addBackground();
@@ -213,29 +205,18 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         countScore();
 
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
-        bird.y = backgroundHeight/2 + 65;
-
-        // pack();
-        // bird.requestFocus();
-        // setVisible(true);
-        // bird.setFocusable(true);
-        // bird.addKeyListener(this);
+        bird.y = backgroundHeight/2 + 36;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("KEY PRESSED.");
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
             bird.velocityY = -9;
             if(gameOver) {
-                System.out.println("frame resetted. ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
                 resetGameFrame();
-                System.out.println("                ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
             }
             else if(!gameStarted && !gameOver) {
-                System.out.println("game started. ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
                 startGame();
-                System.out.println("              ---> " + "Game Over = " + gameOver + " ---> Game Started = " + gameStarted);
             }
         }
     }
@@ -245,5 +226,4 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {}
-
 }
