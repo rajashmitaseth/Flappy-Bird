@@ -13,6 +13,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     Bird bird = new Bird();
     Base base = new Base();
     ScoreBoard scoreBoard = new ScoreBoard();
+    Start startMessage = new Start();
     GameOver gameOverMessage = new GameOver();
 
     ArrayList<Pipe> pipes;
@@ -21,12 +22,15 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int backgroundHeight = background.backgroundImageIcon.getIconHeight();
     int windowWidth = backgroundWidth + 16;
     int windowHeight = backgroundHeight + base.baseImageIcon.getIconHeight() + 39;
+    int startMessageX = backgroundWidth/2 - startMessage.startMessageImageIcon.getIconWidth()/2;
+    int startMessageY = backgroundHeight/2 - startMessage.startMessageImageIcon.getIconHeight()/2;
     int gameOverMessageX = backgroundWidth/2 - gameOverMessage.gameOverImage.getWidth(null)/2;
     int gameOverMessageY = backgroundHeight/2 - gameOverMessage.gameOverImage.getHeight(null)/2;
     int pipeSpacing = windowWidth;
 
     Dimension windowDimension = new Dimension(windowWidth , windowHeight);
-    boolean gameOver;
+    boolean gameOver = true;
+    boolean gameStarted = false;
     int score;
 
     Timer gameLoop;
@@ -40,7 +44,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         setMinimumSize(windowDimension);
         setPreferredSize(windowDimension);
         setLocationRelativeTo(null);
-
+        
+        addStartMessage();
         addGameOver();
         addBird();
         addScoreBoard();
@@ -58,9 +63,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             placePipes();
             addBackground();
         });
-        placePipesTimer.start();
         gameLoop = new Timer(1000/60, this);
-        gameLoop.start();
     }
 
     @Override
@@ -72,6 +75,19 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         repaint();
         birdOutOfBounds();
         checkGameOver();
+    }
+
+    public void startGame() {
+        placePipesTimer.start();
+        gameLoop.start();
+        gameOver = false;
+        gameStarted = true;
+        remove(startMessage);
+    }
+
+    public void addStartMessage() {
+        startMessage.setBounds(startMessageX, startMessageY, windowWidth, windowHeight);
+        add(startMessage);
     }
 
     private void addGameOver() {
@@ -172,19 +188,23 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         }
         pipes.clear();
         pipeSpacing = windowWidth;
+        bird.y = windowHeight/2;
         gameOver = false;
         score = 0;
         gameOverMessage.setVisible(false);
+        addStartMessage();
         addPipe();
-        gameLoop.start();
-        placePipesTimer.start();
+        startGame();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
             bird.velocityY = -9;
-            if(gameOver) {
+            if(!gameStarted) {
+                startGame();
+            }
+            else if(gameOver) {
                 restartGame();
             }
         }
