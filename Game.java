@@ -29,7 +29,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int pipeSpacing = 3 * (backgroundWidth/2);
 
     Dimension windowDimension = new Dimension(windowWidth , windowHeight);
-    boolean gameOver = true;
+    boolean gameOver = false;
     boolean gameStarted = false;
     int score;
 
@@ -47,8 +47,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         
         addStartMessage();
         addGameOver();
-        addBird();
         addScoreBoard();
+        addBird();
         addPipe();
         addBackground();
         addBase();
@@ -73,7 +73,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         countScore();
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
-        birdOutOfBounds();
         checkGameOver();
     }
 
@@ -86,6 +85,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     }
 
     private void addStartMessage() {
+        remove(startMessage);
         startMessage.setBounds(startMessageX, startMessageY, backgroundWidth, windowHeight);
         add(startMessage);
     }
@@ -99,7 +99,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     private void addBird() {
         remove(bird);
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
-        bird.y = backgroundHeight/2 + 65;
+        bird.y = backgroundHeight/2 + 36;
         bird.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(bird);
     }
@@ -129,7 +129,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     private void addBase() {
         remove(base);
         base.y = backgroundHeight;
-        base.setBounds(0, backgroundHeight, base.baseImageIcon.getIconWidth(), base.baseImageIcon.getIconHeight());
+        base.setBounds(0, backgroundHeight - base.baseImageIcon.getIconHeight(), windowWidth, windowHeight);
         add(base);
     }
 
@@ -161,10 +161,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         else if(p.x + p.pipeTopImageIcon.getIconWidth() < bird.x){
             p.passed = true;
         }
-    }
-
-    public void birdOutOfBounds() {
-        if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
+        else if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
             gameOver = true;
         }
     }
@@ -184,10 +181,11 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             placePipesTimer.stop();
             gameLoop.stop();
             gameOverMessage.setVisible(true);
+            gameStarted = false;
         }
     }
 
-    public void restartGame() {
+    public void resetGameFrame() {
         for (Pipe pipe : pipes) {
             remove(pipe);
         }
@@ -197,20 +195,28 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         gameOver = false;
         score = 0;
         gameOverMessage.setVisible(false);
+
         addStartMessage();
+        addGameOver();
+        addScoreBoard();
         addPipe();
-        startGame();
+        addBackground();
+        addBase();
+        countScore();
+
+        bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
+        bird.y = backgroundHeight/2 + 36;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
             bird.velocityY = -9;
-            if(!gameStarted) {
-                startGame();
+            if(gameOver) {
+                resetGameFrame();
             }
-            else if(gameOver) {
-                restartGame();
+            else if(!gameStarted && !gameOver) {
+                startGame();
             }
         }
     }
@@ -220,5 +226,4 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {}
-
 }
