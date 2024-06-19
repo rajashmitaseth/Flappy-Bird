@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -23,7 +24,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int windowWidth = backgroundWidth + 16;
     int windowHeight = backgroundHeight + 39;
     int startMessageX = backgroundWidth/2 - startMessage.startMessageImageIcon.getIconWidth()/2;
-    int startMessageY = backgroundHeight/2 - startMessage.startMessageImageIcon.getIconHeight()/2;
+    int startMessageY = (backgroundHeight - base.baseImageIcon.getIconHeight())/2 - startMessage.startMessageImageIcon.getIconHeight()/2;
     int gameOverMessageX = backgroundWidth/2 - gameOverMessage.gameOverImage.getWidth(null)/2;
     int gameOverMessageY = backgroundHeight/2 - gameOverMessage.gameOverImage.getHeight(null)/2;
     int pipeSpacing = 3 * (backgroundWidth/2);
@@ -38,7 +39,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     public Game() {
         setTitle("Flappy Bird");
-        setIconImage(bird.birdImageIcon.getImage());
+        setIconImage(new ImageIcon("flappy-bird-icon.png").getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(windowDimension);
         setMinimumSize(windowDimension);
@@ -74,26 +75,92 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
         checkGameOver();
+
+        // switch (e.getSource()) {
+        //     case startMessage.yellowBirdButton:
+        //         bird.birdColor = bird.birdColorList[0];
+        //         break;
+        //     case startMessage.redBirdButton:
+        //         bird.birdColor = bird.birdColorList[1];
+        //         break;
+        //     case startMessage.blueBirdButton:
+        //         bird.birdColor = bird.birdColorList[2];
+        //         break;
+        //     default:
+        //         break;
+        // }
+
+        // if(e.getSource() == startMessage.yellowBirdButton) {
+        //     bird.birdColor = bird.birdColorList[0];
+        //     System.out.println("yellow bird.");
+        // }
+        // else if(e.getSource() == startMessage.redBirdButton) {
+        //     bird.birdColor = bird.birdColorList[1];
+        //     System.out.println("red bird.");
+        // }
+        // else if(e.getSource() == startMessage.blueBirdButton) {
+        //     bird.birdColor = bird.birdColorList[2];
+        //     System.out.println("blue bird.");
+        // }
     }
 
     public void startGame() {
+        startMessage.yellowBirdButton.setVisible(false);
+        startMessage.redBirdButton.setVisible(false);
+        startMessage.blueBirdButton.setVisible(false);
         placePipesTimer.start();
         gameLoop.start();
         gameOver = false;
         gameStarted = true;
-        remove(startMessage);
+        startMessage.setVisible(false);
     }
 
     private void addStartMessage() {
-        remove(startMessage);
         startMessage.x = startMessageX;
         startMessage.y = startMessageY;
+        startMessage.yellowBirdButton.setBounds(backgroundWidth/2 - 64/2 - 10 - 64, startMessage.y + startMessage.startMessageImageIcon.getIconHeight() + 30, 64, 54);
+        startMessage.redBirdButton.setBounds(backgroundWidth/2 - 64/2, startMessage.y + startMessage.startMessageImageIcon.getIconHeight() + 30, 64, 54);
+        startMessage.blueBirdButton.setBounds(backgroundWidth/2 + 64/2 + 10, startMessage.y + startMessage.startMessageImageIcon.getIconHeight() + 30, 64, 54);
+        add(startMessage.yellowBirdButton);
+        add(startMessage.redBirdButton);
+        add(startMessage.blueBirdButton);
+
+        startMessage.yellowBirdButton.addActionListener((ActionEvent e) -> {
+            bird.changeSkin(0);
+            // bird.birdImageIcon = new ImageIcon("yellowbird-midflap.png");//bird.birdColorList[0];
+            System.out.println("yellow bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+        });
+        startMessage.redBirdButton.addActionListener((ActionEvent e) -> {
+            bird.changeSkin(1);
+            // bird.birdImageIcon = new ImageIcon("redbird-midflap.png");//bird.birdColorList[1];
+            System.out.println("red bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+        });
+        startMessage.blueBirdButton.addActionListener((ActionEvent e) -> {
+            bird.changeSkin(2);
+            // bird.birdImageIcon = new ImageIcon("bluebird-midflap.png");//bird.birdColorList[2];
+            System.out.println("blue bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+        });
+
+        // startMessage.yellowBirdButton.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         if(e.getSource() == startMessage.yellowBirdButton) {
+        //             bird.birdColor = bird.birdColorList[0];
+        //         }
+        //         else if(e.getSource() == startMessage.redBirdButton) {
+        //             bird.birdColor = bird.birdColorList[1];
+        //         }
+        //         else if(e.getSource() == startMessage.blueBirdButton) {
+        //             bird.birdColor = bird.birdColorList[2];
+        //         }
+        //     }
+        // });
+
         startMessage.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(startMessage);
     }
 
     private void addGameOver() {
-        remove(gameOverMessage);
         gameOverMessage.setBounds(gameOverMessageX, gameOverMessageY, backgroundWidth, backgroundHeight);
         add(gameOverMessage);
     }
@@ -101,7 +168,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     private void addBird() {
         remove(bird);
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
-        bird.y = backgroundHeight/2 + 36;
+        bird.y = backgroundHeight/2 - 24;
         bird.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(bird);
     }
@@ -134,6 +201,10 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         base.setBounds(0, 0, windowWidth, windowHeight);
         add(base);
     }
+
+    // public void changeSkins() {
+
+    // }
 
     public void placePipes() {
         Pipe pipeNew = new Pipe();
@@ -197,16 +268,16 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         gameOver = false;
         score = 0;
         gameOverMessage.setVisible(false);
-
-        addStartMessage();
-        addGameOver();
+        startMessage.setVisible(true);
+        startMessage.yellowBirdButton.setVisible(true);
+        startMessage.redBirdButton.setVisible(true);
+        startMessage.blueBirdButton.setVisible(true);
         addScoreBoard();
         addPipe();
         addBackground();
         countScore();
-
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
-        bird.y = backgroundHeight/2 + 36;
+        bird.y = backgroundHeight/2 - 24;
     }
 
     @Override

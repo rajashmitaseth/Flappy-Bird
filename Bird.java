@@ -1,14 +1,19 @@
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Bird extends JPanel{
     Background background = new Background();
     Base base = new Base();
-    ImageIcon birdUpFlapImageIcon = new ImageIcon("yellowbird-upflap.png");
-    ImageIcon birdMidFlapImageIcon = new ImageIcon("yellowbird-midflap.png");
-    ImageIcon birdDownFlapImageIcon = new ImageIcon("yellowbird-downflap.png");
+
+    String[] birdColorList = {"yellow", "red", "blue"};
+    String birdColor = birdColorList[0];
+
+    ImageIcon birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
+    ImageIcon birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
+    ImageIcon birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
     ImageIcon birdImageIcon = birdDownFlapImageIcon;
     ImageIcon[] wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     int wingPosition = 0;
@@ -24,7 +29,12 @@ public class Bird extends JPanel{
     @Override
     public void paint(Graphics graphics) {
         flap();
+        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
+        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
+        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
+        birdImageIcon = birdDownFlapImageIcon;
         graphics.drawImage(birdImageIcon.getImage(), x, y, this);
+        // wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     }
 
     public void move() {
@@ -44,6 +54,16 @@ public class Bird extends JPanel{
 
     public void fixX() {
         x -= 2;
+    }
+
+    public void changeSkin(int i) {
+        birdColor = birdColorList[i];
+
+        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
+        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
+        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
+        birdImageIcon = birdDownFlapImageIcon;
+        // wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     }
 
     // public void fixY() {
