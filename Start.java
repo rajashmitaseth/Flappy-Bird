@@ -1,9 +1,9 @@
 
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
-public class Start extends JPanel {
+public class Start extends JLayeredPane {
     ImageIcon startMessageImageIcon = new ImageIcon("message.png");
     int x = 0;
     int y = 0;

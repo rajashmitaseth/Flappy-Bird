@@ -163,7 +163,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         else if(p.x + p.pipeTopImageIcon.getIconWidth() < bird.x){
             p.passed = true;
         }
-        else if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == backgroundHeight) {
+        else if(bird.y == 0 || bird.y + bird.birdImageIcon.getIconHeight() == base.y) {
             gameOver = true;
         }
     }
