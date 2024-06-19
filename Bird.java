@@ -1,6 +1,5 @@
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -33,8 +32,11 @@ public class Bird extends JPanel{
         birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
         birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
         birdImageIcon = birdDownFlapImageIcon;
+        wingPositions[0] = birdUpFlapImageIcon;
+        wingPositions[1] = birdMidFlapImageIcon;
+        wingPositions[2] = birdDownFlapImageIcon;
+        wingPositions[3] = birdMidFlapImageIcon;
         graphics.drawImage(birdImageIcon.getImage(), x, y, this);
-        // wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     }
 
     public void move() {
@@ -56,17 +58,4 @@ public class Bird extends JPanel{
         x -= 2;
     }
 
-    public void changeSkin(int i) {
-        birdColor = birdColorList[i];
-
-        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
-        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
-        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
-        birdImageIcon = birdDownFlapImageIcon;
-        // wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
-    }
-
-    // public void fixY() {
-    //     y -= 3;
-    // }
 }

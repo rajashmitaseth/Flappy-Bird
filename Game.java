@@ -75,33 +75,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         pipeSpacing -= pipes.get(0).velocityX;
         repaint();
         checkGameOver();
-
-        // switch (e.getSource()) {
-        //     case startMessage.yellowBirdButton:
-        //         bird.birdColor = bird.birdColorList[0];
-        //         break;
-        //     case startMessage.redBirdButton:
-        //         bird.birdColor = bird.birdColorList[1];
-        //         break;
-        //     case startMessage.blueBirdButton:
-        //         bird.birdColor = bird.birdColorList[2];
-        //         break;
-        //     default:
-        //         break;
-        // }
-
-        // if(e.getSource() == startMessage.yellowBirdButton) {
-        //     bird.birdColor = bird.birdColorList[0];
-        //     System.out.println("yellow bird.");
-        // }
-        // else if(e.getSource() == startMessage.redBirdButton) {
-        //     bird.birdColor = bird.birdColorList[1];
-        //     System.out.println("red bird.");
-        // }
-        // else if(e.getSource() == startMessage.blueBirdButton) {
-        //     bird.birdColor = bird.birdColorList[2];
-        //     System.out.println("blue bird.");
-        // }
     }
 
     public void startGame() {
@@ -126,35 +99,14 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         add(startMessage.blueBirdButton);
 
         startMessage.yellowBirdButton.addActionListener((ActionEvent e) -> {
-            bird.changeSkin(0);
-            // bird.birdImageIcon = new ImageIcon("yellowbird-midflap.png");//bird.birdColorList[0];
-            System.out.println("yellow bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+            bird.birdColor = bird.birdColorList[0];
         });
         startMessage.redBirdButton.addActionListener((ActionEvent e) -> {
-            bird.changeSkin(1);
-            // bird.birdImageIcon = new ImageIcon("redbird-midflap.png");//bird.birdColorList[1];
-            System.out.println("red bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+            bird.birdColor = bird.birdColorList[1];
         });
         startMessage.blueBirdButton.addActionListener((ActionEvent e) -> {
-            bird.changeSkin(2);
-            // bird.birdImageIcon = new ImageIcon("bluebird-midflap.png");//bird.birdColorList[2];
-            System.out.println("blue bird." + " | Bird image = " + bird.birdImageIcon.getDescription());
+            bird.birdColor = bird.birdColorList[2];
         });
-
-        // startMessage.yellowBirdButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         if(e.getSource() == startMessage.yellowBirdButton) {
-        //             bird.birdColor = bird.birdColorList[0];
-        //         }
-        //         else if(e.getSource() == startMessage.redBirdButton) {
-        //             bird.birdColor = bird.birdColorList[1];
-        //         }
-        //         else if(e.getSource() == startMessage.blueBirdButton) {
-        //             bird.birdColor = bird.birdColorList[2];
-        //         }
-        //     }
-        // });
 
         startMessage.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(startMessage);
@@ -201,10 +153,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         base.setBounds(0, 0, windowWidth, windowHeight);
         add(base);
     }
-
-    // public void changeSkins() {
-
-    // }
 
     public void placePipes() {
         Pipe pipeNew = new Pipe();
