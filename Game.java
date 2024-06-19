@@ -21,7 +21,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     int backgroundWidth = background.backgroundImageIcon.getIconWidth();
     int backgroundHeight = background.backgroundImageIcon.getIconHeight();
     int windowWidth = backgroundWidth + 16;
-    int windowHeight = backgroundHeight + base.baseImageIcon.getIconHeight() + 39;
+    int windowHeight = backgroundHeight + 39;
     int startMessageX = backgroundWidth/2 - startMessage.startMessageImageIcon.getIconWidth()/2;
     int startMessageY = backgroundHeight/2 - startMessage.startMessageImageIcon.getIconHeight()/2;
     int gameOverMessageX = backgroundWidth/2 - gameOverMessage.gameOverImage.getWidth(null)/2;
@@ -49,9 +49,9 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         addGameOver();
         addScoreBoard();
         addBird();
+        addBase();
         addPipe();
         addBackground();
-        addBase();
 
         pack();
         bird.requestFocus();
@@ -86,7 +86,9 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     private void addStartMessage() {
         remove(startMessage);
-        startMessage.setBounds(startMessageX, startMessageY, backgroundWidth, windowHeight);
+        startMessage.x = startMessageX;
+        startMessage.y = startMessageY;
+        startMessage.setBounds(0, 0, backgroundWidth, backgroundHeight);
         add(startMessage);
     }
 
@@ -122,14 +124,14 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     private void addBackground() {
         remove(background);
-        background.setBounds(0, 0, backgroundWidth, backgroundHeight);
+        background.setBounds(0, 0, backgroundWidth, backgroundHeight - base.baseImageIcon.getIconHeight());
         add(background);
     }
 
     private void addBase() {
         remove(base);
-        base.y = backgroundHeight;
-        base.setBounds(0, backgroundHeight - base.baseImageIcon.getIconHeight(), windowWidth, windowHeight);
+        base.y = backgroundHeight - base.baseImageIcon.getIconHeight();
+        base.setBounds(0, 0, windowWidth, windowHeight);
         add(base);
     }
 
@@ -201,7 +203,6 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         addScoreBoard();
         addPipe();
         addBackground();
-        addBase();
         countScore();
 
         bird.x = backgroundWidth/2 - bird.birdImageIcon.getIconWidth()/2;
