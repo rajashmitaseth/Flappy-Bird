@@ -13,7 +13,7 @@ public class Pipe extends JPanel {
     int yTop = - random.nextInt(270, pipeTopImageIcon.getIconHeight() - 30);
     int yBottom = yTop + pipeTopImageIcon.getIconHeight() + space;
     boolean passed = false;
-    int velocityX = 4;
+    int velocityX = 3;
     
     public Pipe() {
         setVisible(true);

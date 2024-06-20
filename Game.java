@@ -268,7 +268,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
-            bird.velocityY = -9;
+            bird.velocityY = -10;
             if(gameOver) {
                 resetGameFrame();
             }
