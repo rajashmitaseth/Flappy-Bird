@@ -78,7 +78,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
                 }
             }
         });
-        nightFallTimer.setInitialDelay(4000);
+        nightFallTimer.setInitialDelay(24000);
 
         dayBreakTimer = new Timer(100, (ActionEvent e) -> {
             if (!background.isDay) {
@@ -91,7 +91,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
                 }
             }
         });
-        dayBreakTimer.setInitialDelay(4000);
+        dayBreakTimer.setInitialDelay(24000);
 
         gameLoop = new Timer(1000/60, this);
     }
@@ -111,7 +111,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         startMessage.redBirdButton.setVisible(false);
         startMessage.blueBirdButton.setVisible(false);
         placePipesTimer.start();
-        nightFallTimer.start();
+        nightFallTimer.restart();
         gameLoop.start();
         gameOver = false;
         gameStarted = true;
@@ -233,6 +233,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
     public void checkGameOver() {
         if(gameOver) {
             placePipesTimer.stop();
+            nightFallTimer.stop();
+            dayBreakTimer.stop();
             gameLoop.stop();
             gameOverMessage.setVisible(true);
             gameStarted = false;
@@ -248,6 +250,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         bird.y = windowHeight/2;
         gameOver = false;
         score = 0;
+        background.alpha = 0;
+        background.isDay = true;
         gameOverMessage.setVisible(false);
         startMessage.setVisible(true);
         startMessage.yellowBirdButton.setVisible(true);
