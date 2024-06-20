@@ -28,21 +28,13 @@ public class Bird extends JPanel{
     @Override
     public void paint(Graphics graphics) {
         flap();
-        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
-        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
-        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
-        birdImageIcon = birdDownFlapImageIcon;
-        wingPositions[0] = birdUpFlapImageIcon;
-        wingPositions[1] = birdMidFlapImageIcon;
-        wingPositions[2] = birdDownFlapImageIcon;
-        wingPositions[3] = birdMidFlapImageIcon;
         graphics.drawImage(birdImageIcon.getImage(), x, y, this);
     }
 
     public void move() {
         velocityY += gravity;
         y += velocityY;
-        y = Math.min(y, background.backgroundImageIcon.getIconHeight() - base.baseImageIcon.getIconHeight() - birdImageIcon.getIconHeight());
+        y = Math.min(y, background.backgroundDayImageIcon.getIconHeight() - base.baseImageIcon.getIconHeight() - birdImageIcon.getIconHeight());
         y = Math.max(y, 0);
     }
 
@@ -58,4 +50,14 @@ public class Bird extends JPanel{
         x -= 2;
     }
 
+    public void changeColor() {
+        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
+        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
+        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
+        birdImageIcon = birdDownFlapImageIcon;
+        wingPositions[0] = birdUpFlapImageIcon;
+        wingPositions[1] = birdMidFlapImageIcon;
+        wingPositions[2] = birdDownFlapImageIcon;
+        wingPositions[3] = birdMidFlapImageIcon;
+    }
 }

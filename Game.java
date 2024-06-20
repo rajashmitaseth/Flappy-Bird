@@ -19,8 +19,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     ArrayList<Pipe> pipes;
 
-    int backgroundWidth = background.backgroundImageIcon.getIconWidth();
-    int backgroundHeight = background.backgroundImageIcon.getIconHeight();
+    int backgroundWidth = background.backgroundDayImageIcon.getIconWidth();
+    int backgroundHeight = background.backgroundDayImageIcon.getIconHeight();
     int windowWidth = backgroundWidth + 16;
     int windowHeight = backgroundHeight + 39;
     int startMessageX = backgroundWidth/2 - startMessage.startMessageImageIcon.getIconWidth()/2;
@@ -36,6 +36,8 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     Timer gameLoop;
     Timer placePipesTimer;
+    Timer nightFallTimer;
+    Timer dayBreakTimer;
 
     public Game() {
         setTitle("Flappy Bird");
@@ -64,6 +66,33 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             placePipes();
             addBackground();
         });
+
+        nightFallTimer = new Timer(100, (ActionEvent e) -> {
+            if (background.isDay) {
+                background.alpha += background.alphaChange;
+                if (background.alpha >= 1) {
+                    background.alpha = 1;
+                    background.isDay = false;
+                    nightFallTimer.stop();
+                    dayBreakTimer.restart();
+                }
+            }
+        });
+        nightFallTimer.setInitialDelay(4000);
+
+        dayBreakTimer = new Timer(100, (ActionEvent e) -> {
+            if (!background.isDay) {
+                background.alpha -= background.alphaChange;
+                if (background.alpha <= 0) {
+                    background.alpha = 0;
+                    background.isDay = true;
+                    dayBreakTimer.stop();
+                    nightFallTimer.restart();
+                }
+            }
+        });
+        dayBreakTimer.setInitialDelay(4000);
+
         gameLoop = new Timer(1000/60, this);
     }
 
@@ -82,6 +111,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
         startMessage.redBirdButton.setVisible(false);
         startMessage.blueBirdButton.setVisible(false);
         placePipesTimer.start();
+        nightFallTimer.start();
         gameLoop.start();
         gameOver = false;
         gameStarted = true;
@@ -100,12 +130,15 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
         startMessage.yellowBirdButton.addActionListener((ActionEvent e) -> {
             bird.birdColor = bird.birdColorList[0];
+            bird.changeColor();
         });
         startMessage.redBirdButton.addActionListener((ActionEvent e) -> {
             bird.birdColor = bird.birdColorList[1];
+            bird.changeColor();
         });
         startMessage.blueBirdButton.addActionListener((ActionEvent e) -> {
             bird.birdColor = bird.birdColorList[2];
+            bird.changeColor();
         });
 
         startMessage.setBounds(0, 0, backgroundWidth, backgroundHeight);
