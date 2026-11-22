@@ -67,7 +67,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
             addBackground();
         });
 
-        nightFallTimer = new Timer(100, (ActionEvent e) -> {
+        nightFallTimer = new Timer(5000, (ActionEvent e) -> {
             if (background.isDay) {
                 background.alpha += background.alphaChange;
                 if (background.alpha >= 1) {
@@ -78,7 +78,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
                 }
             }
         });
-        nightFallTimer.setInitialDelay(1500);
+        nightFallTimer.setInitialDelay(5000);
 
         dayBreakTimer = new Timer(100, (ActionEvent e) -> {
             if (!background.isDay) {

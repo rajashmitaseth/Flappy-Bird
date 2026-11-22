@@ -9,7 +9,7 @@ public class Background extends JPanel {
     ImageIcon backgroundNightImageIcon = new ImageIcon(getClass().getResource("/background-night.png"));
 
     float alpha = 0f;
-    float alphaChange = 0.05f;
+    float alphaChange = 0.1f;
     boolean isDay = true;
 
     public Background() {
