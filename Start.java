@@ -6,11 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class Start extends JPanel {
-    ImageIcon startMessageImageIcon = new ImageIcon("message.png");
+    ImageIcon startMessageImageIcon = new ImageIcon(getClass().getResource("/message.png"));
 
-    JButton yellowBirdButton = new JButton(new ImageIcon("yellowbird-downflap.png"));
-    JButton redBirdButton = new JButton(new ImageIcon("redbird-downflap.png"));
-    JButton blueBirdButton = new JButton(new ImageIcon("bluebird-downflap.png"));
+    JButton yellowBirdButton = new JButton(new ImageIcon(getClass().getResource("/yellowbird-downflap.png")));
+    JButton redBirdButton = new JButton(new ImageIcon(getClass().getResource("/redbird-downflap.png")));
+    JButton blueBirdButton = new JButton(new ImageIcon(getClass().getResource("/bluebird-downflap.png")));
 
     int x = 0;
     int y = 0;

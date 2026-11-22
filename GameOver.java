@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class GameOver extends JPanel {
-    Image gameOverImage = new ImageIcon("gameover.png").getImage();
+    Image gameOverImage = new ImageIcon(getClass().getResource("/gameover.png")).getImage();
 
     public GameOver() {
         setVisible(false);

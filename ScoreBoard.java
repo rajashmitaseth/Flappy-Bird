@@ -6,16 +6,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class ScoreBoard extends JPanel {
-    Image Zero = new ImageIcon("0.png").getImage();
-    Image One = new ImageIcon("1.png").getImage();
-    Image Two = new ImageIcon("2.png").getImage();
-    Image Three = new ImageIcon("3.png").getImage();
-    Image Four = new ImageIcon("4.png").getImage();
-    Image Five = new ImageIcon("5.png").getImage();
-    Image Six = new ImageIcon("6.png").getImage();
-    Image Seven = new ImageIcon("7.png").getImage();
-    Image Eight = new ImageIcon("8.png").getImage();
-    Image Nine = new ImageIcon("9.png").getImage();
+    Image Zero = new ImageIcon(getClass().getResource("/0.png")).getImage();
+    Image One = new ImageIcon(getClass().getResource("/1.png")).getImage();
+    Image Two = new ImageIcon(getClass().getResource("/2.png")).getImage();
+    Image Three = new ImageIcon(getClass().getResource("/3.png")).getImage();
+    Image Four = new ImageIcon(getClass().getResource("/4.png")).getImage();
+    Image Five = new ImageIcon(getClass().getResource("/5.png")).getImage();
+    Image Six = new ImageIcon(getClass().getResource("/6.png")).getImage();
+    Image Seven = new ImageIcon(getClass().getResource("/7.png")).getImage();
+    Image Eight = new ImageIcon(getClass().getResource("/8.png")).getImage();
+    Image Nine = new ImageIcon(getClass().getResource("/9.png")).getImage();
 
     ArrayList<Image> scoreDigits;
     String scoreString;

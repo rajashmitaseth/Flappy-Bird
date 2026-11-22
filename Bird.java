@@ -10,9 +10,9 @@ public class Bird extends JPanel{
     String[] birdColorList = {"yellow", "red", "blue"};
     String birdColor = birdColorList[0];
 
-    ImageIcon birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
-    ImageIcon birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
-    ImageIcon birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
+    ImageIcon birdUpFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-upflap.png"));
+    ImageIcon birdMidFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-midflap.png"));
+    ImageIcon birdDownFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-downflap.png"));
     ImageIcon birdImageIcon = birdDownFlapImageIcon;
     ImageIcon[] wingPositions = {birdUpFlapImageIcon, birdMidFlapImageIcon, birdDownFlapImageIcon, birdMidFlapImageIcon};
     int wingPosition = 0;
@@ -51,9 +51,9 @@ public class Bird extends JPanel{
     }
 
     public void changeColor() {
-        birdUpFlapImageIcon = new ImageIcon(birdColor + "bird-upflap.png");
-        birdMidFlapImageIcon = new ImageIcon(birdColor + "bird-midflap.png");
-        birdDownFlapImageIcon = new ImageIcon(birdColor + "bird-downflap.png");
+        birdUpFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-upflap.png"));
+        birdMidFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-midflap.png"));
+        birdDownFlapImageIcon = new ImageIcon(getClass().getResource("/" + birdColor + "bird-downflap.png"));
         birdImageIcon = birdDownFlapImageIcon;
         wingPositions[0] = birdUpFlapImageIcon;
         wingPositions[1] = birdMidFlapImageIcon;

@@ -5,8 +5,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Background extends JPanel {
-    ImageIcon backgroundDayImageIcon = new ImageIcon("background-day.png");
-    ImageIcon backgroundNightImageIcon = new ImageIcon("background-night.png");
+    ImageIcon backgroundDayImageIcon = new ImageIcon(getClass().getResource("/background-day.png"));
+    ImageIcon backgroundNightImageIcon = new ImageIcon(getClass().getResource("/background-night.png"));
 
     float alpha = 0f;
     float alphaChange = 0.05f;

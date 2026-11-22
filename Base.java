@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Base extends JPanel {
-    ImageIcon baseImageIcon = new ImageIcon("base.png");
+    ImageIcon baseImageIcon = new ImageIcon(getClass().getResource("/base.png"));
     int y = 0;
     
     public Base() {

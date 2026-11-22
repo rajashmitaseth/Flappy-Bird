@@ -41,7 +41,7 @@ public class Game extends JFrame implements ActionListener, KeyListener{
 
     public Game() {
         setTitle("Flappy Bird");
-        setIconImage(new ImageIcon("flappy-bird-icon.png").getImage());
+        setIconImage(new ImageIcon("/flappy-bird-icon.png").getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(windowDimension);
         setMinimumSize(windowDimension);
